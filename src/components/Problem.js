@@ -1,15 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Problem.css";
 
 const ERROR = {
-  notTriangle: "Not a triangle",
-  nonPositiveSides: "Sides must be greater than 0"
+  NOT_TRIANGLE: "Not a triangle",
+  NONPOSITIVE_SIDES: "Sides must be greater than 0"
 };
 
 const TYPE = {
-  isosceles: "",
-  equalateral: "",
-  scalene: ""
+  ISOSCELES: "Isosceles",
+  EQUILATERAL: "Equilateral",
+  SCALENE: "Scalene"
 };
 
 class Problem extends React.Component {
@@ -23,48 +23,61 @@ class Problem extends React.Component {
     };
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-
-    let error = this.isTriangle();
-
-    if (error === ERROR.notTriangle) {
-      this.setState({ answer: error });
-    } else if (error === ERROR.nonPositiveSides) {
-      this.setState({ answer: error });
-    }
-  }
-
   handleChange = event => {
     let name = event.target.name;
     let value = Number(event.target.value);
     this.setState({ [name]: value });
   };
 
+  handleSubmit(e) {
+    e.preventDefault();
+
+    let error = this.checkForErrors();
+
+    if (error === ERROR.NOT_TRIANGLE) {
+      this.setState({ answer: error });
+    } else if (error === ERROR.NONPOSITIVE_SIDES) {
+      this.setState({ answer: error });
+    } else {
+      this.triangleType();
+    }
+  }
+
   // Checking requirements for a triangle: Addition of 2 sides must be greater than 1 side
-  isTriangle = function() {
+  checkForErrors = function() {
     if (
       this.state.sideOne <= 0 ||
       this.state.sideTwo <= 0 ||
       this.state.sideThree <= 0
     ) {
-      console.log("TESTING");
-      return ERROR.nonPositiveSides;
+      return ERROR.NONPOSITIVE_SIDES;
     }
 
-    console.log(this.state.sideOne + this.state.sideTwo < this.state.sideThree);
     if (
       this.state.sideOne + this.state.sideTwo < this.state.sideThree ||
       this.state.sideOne + this.state.sideThree < this.state.sideTwo ||
       this.state.sideTwo + this.state.sideThree < this.state.sideOne
     ) {
-      console.log(this.state.sideOne);
-      console.log(this.state.sideTwo);
-      console.log(this.state.sideThree);
-      return ERROR.notTriangle;
+      return ERROR.NOT_TRIANGLE;
     }
+  };
 
-    return true;
+  triangleType = function() {
+    if (
+      this.state.sideOne === this.state.sideTwo &&
+      this.state.sideTwo === this.state.sideThree &&
+      this.state.sideThree === this.state.sideOne
+    ) {
+      this.setState({ answer: TYPE.EQUILATERAL });
+    } else if (
+      this.state.sideOne === this.state.sideTwo ||
+      this.state.sideTwo === this.state.sideThree ||
+      this.state.sideOne === this.state.sideThree
+    ) {
+      this.setState({ answer: TYPE.ISOSCELES });
+    } else {
+      this.setState({ answer: TYPE.SCALENE });
+    }
   };
 
   render() {
