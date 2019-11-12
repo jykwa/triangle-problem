@@ -25,10 +25,6 @@
   margin: 2em;
 }
 
-form {
-  overflow: hidden;
-}
-
-input {
-  margin: 1em;
+.definition {
+  word-wrap: break-word;
 }
