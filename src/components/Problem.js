@@ -1,8 +1,10 @@
 import React from "react";
 import "./Problem.css";
 
+const ts = window.ts;
+
 const ERROR = {
-  NOT_TRIANGLE: "Not a triangle",
+  NOT_TRIANGLE: "Not a valid triangle. Check the lengths.",
   NONPOSITIVE_SIDES: "Sides must be greater than 0"
 };
 
@@ -26,6 +28,7 @@ class Problem extends React.Component {
   handleChange = event => {
     let name = event.target.name;
     let value = Number(event.target.value);
+
     this.setState({ [name]: value });
   };
 
@@ -35,9 +38,13 @@ class Problem extends React.Component {
     let error = this.checkForErrors();
 
     if (error === ERROR.NOT_TRIANGLE) {
-      this.setState({ answer: error });
+      ts.ui.Notification.error(ERROR.NOT_TRIANGLE);
+      this.setState({ answer: "" });
     } else if (error === ERROR.NONPOSITIVE_SIDES) {
-      this.setState({ answer: error });
+      ts.ui.Notification.error(ERROR.NONPOSITIVE_SIDES);
+      this.setState({ answer: "" });
+
+      // If no errors and is a valid triangle, proceed to find the triangle type
     } else {
       this.triangleType();
     }
@@ -89,7 +96,6 @@ class Problem extends React.Component {
             name="sideOne"
             placeholder="First length"
             onChange={this.handleChange}
-            required
           ></input>
           <br />
 
@@ -98,7 +104,6 @@ class Problem extends React.Component {
             name="sideTwo"
             placeholder="Second length"
             onChange={this.handleChange}
-            required
           ></input>
           <br />
           <input
@@ -106,7 +111,6 @@ class Problem extends React.Component {
             name="sideThree"
             placeholder="Third length"
             onChange={this.handleChange}
-            required
           ></input>
           <br />
         </form>
