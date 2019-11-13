@@ -28,3 +28,20 @@
 .definition {
   word-wrap: break-word;
 }
+
+form {
+  overflow: hidden;
+}
+
+input {
+  margin: 0.75em;
+}
+
+.answer-space {
+  margin-top: 0.75em;
+  font-size: 1.5em;
+}
+
+.answer {
+  margin-top: 1em;
+}

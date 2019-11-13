@@ -1,14 +1,13 @@
 import React from "react";
-import "./Problem.css";
 
 const ts = window.ts;
 
-const ERROR = {
+export const ERROR = {
   NOT_TRIANGLE: "Not a valid triangle. Check the lengths.",
   NONPOSITIVE_SIDES: "Sides must be greater than 0"
 };
 
-const TYPE = {
+export const TYPE = {
   ISOSCELES: "Isosceles",
   EQUILATERAL: "Equilateral",
   SCALENE: "Scalene"
@@ -35,7 +34,11 @@ class Problem extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    let error = this.checkForErrors();
+    let error = this.checkForErrors(
+      this.state.sideOne,
+      this.state.sideTwo,
+      this.state.sideThree
+    );
 
     if (error === ERROR.NOT_TRIANGLE) {
       ts.ui.Notification.error(ERROR.NOT_TRIANGLE);
@@ -49,25 +52,6 @@ class Problem extends React.Component {
       this.triangleType();
     }
   }
-
-  // Checking requirements for a triangle: Addition of 2 sides must be greater than 1 side
-  checkForErrors = function() {
-    if (
-      this.state.sideOne <= 0 ||
-      this.state.sideTwo <= 0 ||
-      this.state.sideThree <= 0
-    ) {
-      return ERROR.NONPOSITIVE_SIDES;
-    }
-
-    if (
-      this.state.sideOne + this.state.sideTwo < this.state.sideThree ||
-      this.state.sideOne + this.state.sideThree < this.state.sideTwo ||
-      this.state.sideTwo + this.state.sideThree < this.state.sideOne
-    ) {
-      return ERROR.NOT_TRIANGLE;
-    }
-  };
 
   triangleType = function() {
     if (
@@ -131,5 +115,20 @@ class Problem extends React.Component {
     );
   }
 }
+
+// Checking requirements for a triangle: Addition of 2 sides must be greater than 1 side
+export const checkForErrors = function(sideOne, sideTwo, sideThree) {
+  if (sideOne <= 0 || sideTwo <= 0 || sideThree <= 0) {
+    return ERROR.NONPOSITIVE_SIDES;
+  }
+
+  if (
+    sideOne + sideTwo < sideThree ||
+    sideOne + sideThree < sideTwo ||
+    sideTwo + sideThree < sideOne
+  ) {
+    return ERROR.NOT_TRIANGLE;
+  }
+};
 
 export default Problem;
