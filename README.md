@@ -1,5 +1,4 @@
-Triangle definition according to Wikipedia: In mathematics, the triangle inequality states that for any triangle, the sum of the lengths of any two sides must be greater than or equal to the length of the remaining side. (https://en.wikipedia.org/wiki/Triangle_inequality)
-
+Triangle definition: sum of two sides must be greater than the length of the third side A + B > C, A + C > B, and B + C > A, where A, B, and C are triangle side lengths. I will not include degenerate triangles where one side could be equal to 0 because it will result in a straight line. All side lengths must be greater than 0.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
