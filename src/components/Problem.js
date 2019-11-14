@@ -1,16 +1,12 @@
 import React from "react";
+import { Triangle } from "./triangle.js";
 
 const ts = window.ts;
 
 export const ERROR = {
-  NOT_TRIANGLE: "Not a valid triangle. Check the lengths.",
-  NONPOSITIVE_SIDES: "Sides must be greater than 0"
-};
-
-export const TYPE = {
-  ISOSCELES: "Isosceles",
-  EQUILATERAL: "Equilateral",
-  SCALENE: "Scalene"
+  NOT_TRIANGLE:
+    "Not a valid triangle. The sum of 2 side lengths must be greater than the length of the third side.",
+  NONPOSITIVE_SIDES: "Each side must be greater than 0."
 };
 
 class Problem extends React.Component {
@@ -34,7 +30,7 @@ class Problem extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    let error = this.checkForErrors(
+    let error = checkForErrors(
       this.state.sideOne,
       this.state.sideTwo,
       this.state.sideThree
@@ -42,19 +38,21 @@ class Problem extends React.Component {
 
     if (error === ERROR.NOT_TRIANGLE) {
       ts.ui.Notification.error(ERROR.NOT_TRIANGLE);
-      this.setState({ answer: "" }); // Reset answer to "" in the event of back-to-back errors
+      this.setState({ answer: "" }); // Reset answer to "" in the event of correct answer followed by an error
     } else if (error === ERROR.NONPOSITIVE_SIDES) {
       ts.ui.Notification.error(ERROR.NONPOSITIVE_SIDES);
-      this.setState({ answer: "" }); // Reset answer to "" in the event of back-to-back errors
+      this.setState({ answer: "" }); // Reset answer to "" in the event of correct answer followed by an error
 
       // If no errors and is a valid triangle, proceed to find the triangle type
     } else {
+      let triangle = new Triangle(
+        this.state.sideOne,
+        this.state.sideTwo,
+        this.state.sideThree
+      );
+
       this.setState({
-        answer: this.determineTriangle(
-          this.state.sideOne,
-          this.state.sideTwo,
-          this.state.sideThree
-        )
+        answer: triangle.getType
       });
     }
   }
@@ -116,21 +114,6 @@ export const checkForErrors = function(sideOne, sideTwo, sideThree) {
     sideTwo + sideThree <= sideOne
   ) {
     return ERROR.NOT_TRIANGLE;
-  }
-};
-
-// Identifying the type of triangle based on the 3 side lengths
-export const determineTriangle = function(sideOne, sideTwo, sideThree) {
-  if (sideOne === sideTwo && sideTwo === sideThree && sideThree === sideOne) {
-    return TYPE.EQUILATERAL;
-  } else if (
-    sideOne === sideTwo ||
-    sideTwo === sideThree ||
-    sideOne === sideThree
-  ) {
-    return TYPE.ISOSCELES;
-  } else {
-    return TYPE.SCALENE;
   }
 };
 
