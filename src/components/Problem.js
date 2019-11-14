@@ -42,34 +42,22 @@ class Problem extends React.Component {
 
     if (error === ERROR.NOT_TRIANGLE) {
       ts.ui.Notification.error(ERROR.NOT_TRIANGLE);
-      this.setState({ answer: "" });
+      this.setState({ answer: "" }); // Reset answer to "" in the event of back-to-back errors
     } else if (error === ERROR.NONPOSITIVE_SIDES) {
       ts.ui.Notification.error(ERROR.NONPOSITIVE_SIDES);
-      this.setState({ answer: "" });
+      this.setState({ answer: "" }); // Reset answer to "" in the event of back-to-back errors
 
       // If no errors and is a valid triangle, proceed to find the triangle type
     } else {
-      this.triangleType();
+      this.setState({
+        answer: this.determineTriangle(
+          this.state.sideOne,
+          this.state.sideTwo,
+          this.state.sideThree
+        )
+      });
     }
   }
-
-  triangleType = function() {
-    if (
-      this.state.sideOne === this.state.sideTwo &&
-      this.state.sideTwo === this.state.sideThree &&
-      this.state.sideThree === this.state.sideOne
-    ) {
-      this.setState({ answer: TYPE.EQUILATERAL });
-    } else if (
-      this.state.sideOne === this.state.sideTwo ||
-      this.state.sideTwo === this.state.sideThree ||
-      this.state.sideOne === this.state.sideThree
-    ) {
-      this.setState({ answer: TYPE.ISOSCELES });
-    } else {
-      this.setState({ answer: TYPE.SCALENE });
-    }
-  };
 
   render() {
     return (
@@ -123,11 +111,26 @@ export const checkForErrors = function(sideOne, sideTwo, sideThree) {
   }
 
   if (
-    sideOne + sideTwo < sideThree ||
-    sideOne + sideThree < sideTwo ||
-    sideTwo + sideThree < sideOne
+    sideOne + sideTwo <= sideThree ||
+    sideOne + sideThree <= sideTwo ||
+    sideTwo + sideThree <= sideOne
   ) {
     return ERROR.NOT_TRIANGLE;
+  }
+};
+
+// Identifying the type of triangle based on the 3 side lengths
+export const determineTriangle = function(sideOne, sideTwo, sideThree) {
+  if (sideOne === sideTwo && sideTwo === sideThree && sideThree === sideOne) {
+    return TYPE.EQUILATERAL;
+  } else if (
+    sideOne === sideTwo ||
+    sideTwo === sideThree ||
+    sideOne === sideThree
+  ) {
+    return TYPE.ISOSCELES;
+  } else {
+    return TYPE.SCALENE;
   }
 };
 
