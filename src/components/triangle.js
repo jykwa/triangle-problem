@@ -1,10 +1,10 @@
-export const TYPE = Object.freeze({
-  ISOSCELES: "Isosceles",
-  EQUILATERAL: "Equilateral",
-  SCALENE: "Scalene"
-});
+export default class Triangle {
+  static TYPE = Object.freeze({
+    ISOSCELES: "Isosceles",
+    EQUILATERAL: "Equilateral",
+    SCALENE: "Scalene"
+  });
 
-export class Triangle {
   constructor(sideOne, sideTwo, sideThree) {
     this.sideOne = sideOne;
     this.sideTwo = sideTwo;
@@ -18,7 +18,7 @@ export class Triangle {
   }
 
   // Identifying the type of triangle based on the 3 side lengths
-  determineTriangle(sideOne, sideTwo, sideThree) {
+  static determineTriangle(sideOne, sideTwo, sideThree) {
     if (
       this.sideOne === this.sideTwo &&
       this.sideTwo === this.sideThree &&
