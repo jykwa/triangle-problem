@@ -1,10 +1,10 @@
-export default class Triangle {
-  static TYPE = Object.freeze({
-    ISOSCELES: "Isosceles",
-    EQUILATERAL: "Equilateral",
-    SCALENE: "Scalene"
-  });
+export const TYPE = Object.freeze({
+  ISOSCELES: "Isosceles",
+  EQUILATERAL: "Equilateral",
+  SCALENE: "Scalene"
+});
 
+export class Triangle {
   constructor(sideOne, sideTwo, sideThree) {
     this.sideOne = sideOne;
     this.sideTwo = sideTwo;
