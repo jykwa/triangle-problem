@@ -18,7 +18,7 @@ export class Triangle {
   }
 
   // Identifying the type of triangle based on the 3 side lengths
-  static determineTriangle(sideOne, sideTwo, sideThree) {
+  determineTriangle(sideOne, sideTwo, sideThree) {
     if (
       this.sideOne === this.sideTwo &&
       this.sideTwo === this.sideThree &&
