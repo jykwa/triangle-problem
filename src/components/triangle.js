@@ -1,8 +1,8 @@
-export const TYPE = {
+export const TYPE = Object.freeze({
   ISOSCELES: "Isosceles",
   EQUILATERAL: "Equilateral",
   SCALENE: "Scalene"
-};
+});
 
 export class Triangle {
   constructor(sideOne, sideTwo, sideThree) {

@@ -3,11 +3,11 @@ import { Triangle } from "./triangle.js";
 
 const ts = window.ts;
 
-export const ERROR = {
+export const ERROR = Object.freeze({
   NOT_TRIANGLE:
     "Not a valid triangle. The sum of 2 side lengths must be greater than the length of the third side.",
   NONPOSITIVE_SIDES: "Each side must be greater than 0."
-};
+});
 
 class Problem extends React.Component {
   constructor(props) {
@@ -29,32 +29,22 @@ class Problem extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const { sideOne, sideTwo, sideThree } = this.state;
 
-    let error = checkForErrors(
-      this.state.sideOne,
-      this.state.sideTwo,
-      this.state.sideThree
-    );
+    const error = checkForErrors(sideOne, sideTwo, sideThree);
 
-    if (error === ERROR.NOT_TRIANGLE) {
-      ts.ui.Notification.error(ERROR.NOT_TRIANGLE);
+    if (error) {
+      ts.ui.Notification.error(error);
       this.setState({ answer: "" }); // Reset answer to "" in the event of correct answer followed by an error
-    } else if (error === ERROR.NONPOSITIVE_SIDES) {
-      ts.ui.Notification.error(ERROR.NONPOSITIVE_SIDES);
-      this.setState({ answer: "" }); // Reset answer to "" in the event of correct answer followed by an error
-
-      // If no errors and is a valid triangle, proceed to find the triangle type
-    } else {
-      let triangle = new Triangle(
-        this.state.sideOne,
-        this.state.sideTwo,
-        this.state.sideThree
-      );
-
-      this.setState({
-        answer: triangle.getType
-      });
+      return;
     }
+
+    // If no errors and is a valid triangle, proceed to find the triangle type
+    const triangle = new Triangle(sideOne, sideTwo, sideThree);
+
+    this.setState({
+      answer: triangle.getType
+    });
   }
 
   render() {
