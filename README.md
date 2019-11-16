@@ -1,3 +1,5 @@
+Program can be viewed here: https://triangle-problem.herokuapp.com
+
 Triangle definition: sum of two sides must be greater than the length of the third side A + B > C, A + C > B, and B + C > A, where A, B, and C are triangle side lengths. I will not include degenerate triangles where one side could be equal to 0 because it will result in a straight line. All side lengths must be greater than 0.
 
 Discussion of design decisions and implementation choices:
