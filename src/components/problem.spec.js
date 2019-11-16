@@ -1,4 +1,4 @@
-import { ERROR, checkForErrors } from "./problem.js";
+import { ERROR, checkForErrors } from "./Problem.js";
 import { TYPE, determineTriangle } from "./triangle.js";
 import { Triangle } from "./triangle.js";
 
