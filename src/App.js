@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Problem from "./components/problem.js";
+import Problem from "./components/Problem.js";
 
 function App() {
   return (
